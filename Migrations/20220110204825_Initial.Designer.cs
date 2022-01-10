@@ -10,8 +10,8 @@ using WebApp.Models;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220110173409_mystatus")]
-    partial class mystatus
+    [Migration("20220110204825_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,9 +23,9 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.Category", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<long>("CategoryId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .UseIdentityColumn();
 
                     b.Property<string>("slug")
@@ -34,23 +34,23 @@ namespace WebApp.Migrations
                     b.Property<string>("title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("CategoryId");
 
-                    b.ToTable("categories");
+                    b.ToTable("Categorie1");
                 });
 
             modelBuilder.Entity("WebApp.Post", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<long>("PostId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .UseIdentityColumn();
 
-                    b.Property<int?>("Userid")
-                        .HasColumnType("int");
+                    b.Property<long>("CategoryId")
+                        .HasColumnType("bigint");
 
-                    b.Property<int?>("categoryid")
-                        .HasColumnType("int");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("content")
                         .HasColumnType("nvarchar(max)");
@@ -79,20 +79,20 @@ namespace WebApp.Migrations
                     b.Property<string>("updated_date")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("PostId");
 
-                    b.HasIndex("Userid");
+                    b.HasIndex("CategoryId");
 
-                    b.HasIndex("categoryid");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("posts");
+                    b.ToTable("Posts");
                 });
 
             modelBuilder.Entity("WebApp.User", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .UseIdentityColumn();
 
                     b.Property<string>("avatar")
@@ -110,22 +110,26 @@ namespace WebApp.Migrations
                     b.Property<string>("pwd")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("id");
+                    b.HasKey("UserId");
 
-                    b.ToTable("users");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WebApp.Post", b =>
                 {
+                    b.HasOne("WebApp.Models.Category", "Category")
+                        .WithMany("Posts")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WebApp.User", "User")
                         .WithMany("Posts")
-                        .HasForeignKey("Userid");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("WebApp.Models.Category", "category")
-                        .WithMany("Posts")
-                        .HasForeignKey("categoryid");
-
-                    b.Navigation("category");
+                    b.Navigation("Category");
 
                     b.Navigation("User");
                 });

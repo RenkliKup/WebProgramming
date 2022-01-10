@@ -33,7 +33,7 @@ namespace WebApp
         {
           
             app.UseRouting();
-
+            app.UseMiddleware<TestMiddleware>();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGet("/", async context =>

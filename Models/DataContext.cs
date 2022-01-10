@@ -12,9 +12,11 @@ namespace WebApp.Models
         {
 
         }
-        public DbSet<User> users { get; set; }
-        public DbSet<Category> categories { get; set; }
-        public DbSet<Post> posts { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Category> Categorie1 { get; set; }
+        public DbSet<User> Users { get; set; }
+        
+        
 
 
     }

@@ -3,29 +3,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WebApp.Migrations
 {
-    public partial class mystatus : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "categories",
+                name: "Categorie1",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    CategoryId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     slug = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_categories", x => x.id);
+                    table.PrimaryKey("PK_Categorie1", x => x.CategoryId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "users",
+                name: "Users",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     kullaniciAdi = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -35,14 +35,14 @@ namespace WebApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_users", x => x.id);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "posts",
+                name: "Posts",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    PostId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     slug = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -53,47 +53,47 @@ namespace WebApp.Migrations
                     updated_date = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     show_in_slider = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     slider_thumbnail = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    categoryid = table.Column<int>(type: "int", nullable: true),
-                    Userid = table.Column<int>(type: "int", nullable: true)
+                    CategoryId = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_posts", x => x.id);
+                    table.PrimaryKey("PK_Posts", x => x.PostId);
                     table.ForeignKey(
-                        name: "FK_posts_categories_categoryid",
-                        column: x => x.categoryid,
-                        principalTable: "categories",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_Posts_Categorie1_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categorie1",
+                        principalColumn: "CategoryId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_posts_users_Userid",
-                        column: x => x.Userid,
-                        principalTable: "users",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
+                        name: "FK_Posts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_posts_categoryid",
-                table: "posts",
-                column: "categoryid");
+                name: "IX_Posts_CategoryId",
+                table: "Posts",
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_posts_Userid",
-                table: "posts",
-                column: "Userid");
+                name: "IX_Posts_UserId",
+                table: "Posts",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "posts");
+                name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "categories");
+                name: "Categorie1");
 
             migrationBuilder.DropTable(
-                name: "users");
+                name: "Users");
         }
     }
 }

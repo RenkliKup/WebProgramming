@@ -11,7 +11,7 @@ namespace WebApp.Models
             public static void SeedDatabase(DataContext context)
         {
             context.Database.Migrate();
-            if(context.posts.Count()==0 && context.users.Count()==0 && context.categories.Count()==0)
+            if(context.Posts.Count()==0 && context.Users.Count()==0 && context.Categorie1.Count()==0)
             {
                 User baris =new User() 
                 { kullaniciAdi="bariskrklk",
@@ -23,7 +23,8 @@ namespace WebApp.Models
                 Category telefon = new Category() {
                 slug="telefon",
                 title="telefon"};
-                Post post = new Post() { category = telefon,
+                
+                Post post = new Post() { Category = telefon,
                     content = "selam",
                     title = "telefon", User = baris,
                     short_content = "tel",
@@ -33,6 +34,8 @@ namespace WebApp.Models
                     thumbnail="sd",
                     updated_date=null
                 };
+                context.Posts.Add(post);
+                context.SaveChanges();
             }
         }
     }

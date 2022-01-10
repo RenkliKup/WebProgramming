@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.ComponentModel.DataAnnotations;
 namespace WebApp.Models
 {
     public class Category
     {
-        public int id { get; set; }
+        [Key]
+        public long CategoryId { get; set; }
         public string title { get; set; }
         public string slug { get; set; }
-        public IEnumerable<Post> Posts { get; set; }
+        public ICollection<Post> Posts { get; set; }
     }
 }
