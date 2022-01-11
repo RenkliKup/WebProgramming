@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 namespace WebApp.Controllers
 {
+    [ApiController]
     [Route("api/[controller]")]
     public class PostsController : ControllerBase
     {
@@ -29,20 +30,39 @@ namespace WebApp.Controllers
 
         }
         [HttpGet("{id}")]
-        public async Task<Post> GetPost(long id, [FromServices] ILogger<PostsController> logger)
+        public async Task<IActionResult> GetPost(long id, [FromServices] ILogger<PostsController> logger)
         {
-            logger.LogDebug("GetProduct Action Invoked");
-            return await context.Posts.FindAsync(id);
+            
+            Post p= await context.Posts.FindAsync(id);
+            if(p==null)
+            {
+                return NotFound();
+            }
+            return Ok(new { PostId=p.PostId,
+                Content=p.content,
+                UserId=p.UserId,
+                CategoryId=p.CategoryId});
 
         }
         [HttpPost]
-        public async Task SaveProduct([FromBody] Post post)
+        public async Task<IActionResult> SaveProduct(PostBindingTarget target)
         {
-            context.Posts.AddAsync(post);
-            context.SaveChangesAsync();
+           
+                Post p = target.ToPost();
+                await context.Posts.AddAsync(p);
+                await context.SaveChangesAsync();
+                return Ok(p);
+            
+            
+            
+        }
+        [HttpGet("redirect")]
+        public IActionResult Redirect()
+        {
+            return RedirectToAction(nameof(GetPost),new { Id=1});
         }
         [HttpPut]
-        public async Task UpdateProduct([FromBody] Post post)
+        public async Task UpdateProduct(Post post)
         {
             context.Posts.Update(post);
             context.SaveChangesAsync();
