@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace WebApp.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/posts")]
     public class PostsController : ControllerBase
     {
         private DataContext context;
@@ -23,14 +23,14 @@ namespace WebApp.Controllers
         {
             return context.Posts;
         }
-        [HttpGet("{id}")]
+        /* [HttpGet("{id}")]
         public Post GetPost([FromServices] ILogger<PostsController> logger) {
             logger.LogDebug("GetProduct Action Invoked");
             return context.Posts.FirstOrDefault();
 
-        }
+        }*/
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetPost(long id, [FromServices] ILogger<PostsController> logger)
+        public async Task<IActionResult> GetPost(long id)
         {
             
             Post p= await context.Posts.FindAsync(id);
