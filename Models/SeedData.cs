@@ -25,6 +25,7 @@ namespace WebApp.Models
                 title="telefon"};
                 
                 Post post = new Post() { Category = telefon,
+                    
                     content = "selam",
                     title = "telefon", User = baris,
                     short_content = "tel",
