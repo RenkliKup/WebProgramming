@@ -14,7 +14,7 @@ namespace WebApp.Controllers
     public class PostsController : ControllerBase
     {
         private DataContext context;
-        public PostsController(DataContext ctx)
+        public PostsController(DataContext ctx)//
         {
             context = ctx;
         }
